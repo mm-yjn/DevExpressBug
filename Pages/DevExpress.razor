@@ -1,0 +1,41 @@
+﻿@page "/devexpress"
+@using global::DevExpress.Blazor
+
+<DxChart Data="@SalesData">
+    <DxChartLineSeries Name="2017"
+                       Filter="@((SaleInfo s) => s.Date.Year == 2017)"
+                       ArgumentField="@(s => s.City)"
+                       ValueField="@(s => s.Amount)"
+                       SummaryMethod="Enumerable.Sum" />
+    <DxChartLineSeries Name="2018"
+                       Filter="@((SaleInfo s) => s.Date.Year == 2018)"
+                       ArgumentField="@(s => s.City)"
+                       ValueField="@(s => s.Amount)"
+                       SummaryMethod="Enumerable.Sum" />
+    <DxChartLineSeries Name="2019"
+                       Filter="@((SaleInfo s) => s.Date.Year == 2019)"
+                       ArgumentField="@(s => s.City)"
+                       ValueField="@(s => s.Amount)"
+                       SummaryMethod="Enumerable.Sum" />
+    <DxChartLegend Position="RelativePosition.Outside" HorizontalAlignment="HorizontalAlignment.Right" />
+</DxChart>
+
+@code {
+    IEnumerable<SaleInfo> SalesData = new List<SaleInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(100);
+        SalesData = new List<SaleInfo>
+        {
+            new SaleInfo(new DateTime(2017, 1, 1), "New York", 1000),
+            new SaleInfo(new DateTime(2017, 2, 1), "Los Angeles", 1200),
+            new SaleInfo(new DateTime(2018, 1, 1), "New York", 1500),
+            new SaleInfo(new DateTime(2018, 2, 1), "Los Angeles", 1300),
+            new SaleInfo(new DateTime(2019, 1, 1), "New York", 1700),
+            new SaleInfo(new DateTime(2019, 2, 1), "Los Angeles", 1600)
+        };
+    }
+
+    record SaleInfo(DateTime Date, string City, double Amount);
+}
